@@ -3,10 +3,11 @@ var celebrities = ["Brad Pitt", ];
 // displayMovieInfo function re-renders the HTML to display the appropriate content
 function displayGifs() {
 $("#gifsDiv").empty();
+
   var celebrity = $(this).attr("data-name");
   console.log(this)
   var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=flObyjxaDjlnvavqcHAbDN1rA8IGNVsy&q=" + celebrity + 
-  "&limit=10&offset=0&rating=G&lang=en"
+  "&limit=10"
 
   // Creating an AJAX call for the specific movie button being clicked
   $.ajax({
@@ -21,19 +22,20 @@ $("#gifsDiv").empty();
 
 
     // var gifStill = results[i].images.fixed_height_still.url;
-    var celebrityImage = $("<img>")
+    var gifStill = results[i].images.fixed_height_still.url;
+    var gifAnimate = results[i].images.fixed_height.url;
   
     
-    celebrityImage.attr("src", results[i].images.fixed_height.url);
+    var celebrityImage = $("<img class='img-responsive star'>")
     
 
     // var celebrityImage = $("img class='img-responsive' style='height: 300px;'>")
     
-    // celebrityImage.attr("src", gifStill);
-    // celebrityImage.attr("data-still", gifStill);
-    // celebrityImage.attr("data-animate", gifAnimate);
-    // celebrityImage.attr("data-state", "still");
-    // celebrityImage.attr("alt", "celebrity-image");
+    celebrityImage.attr("src", gifStill);
+    celebrityImage.attr("data-still", gifStill);
+    celebrityImage.attr("data-animate", gifAnimate);
+    celebrityImage.attr("data-state", "still");
+    celebrityImage.attr("alt", "celebrity-image");
 
 
 $("#gifsDiv").append(celebrityImage)
@@ -44,6 +46,21 @@ $("#gifsDiv").append(celebrityImage)
     }
   }); 
 }
+
+$(document).on('click', '.star', function(){
+  var state = $(this).attr('data-state');
+  var moving = $(this).attr('data-animate');
+  var still = $(this).attr('data-still');
+
+  if(state === "still"){
+    $(this).attr('src', moving);
+    $(this).attr('data-state', 'animate');
+  }
+  else{
+    $(this).attr('src', still);
+    $(this).attr('data-state', 'still');
+  }
+})
 // Function for displaying movie data
 function renderButtons() {
 
@@ -71,6 +88,8 @@ function renderButtons() {
 // This function handles events where a movie button is clicked
 $("#add-celebrity").on("click", function(event) {
   event.preventDefault();
+  
+
   
   // This line grabs the input from the textbox
   var celebrity = $("#celebrity-input").val().trim();
