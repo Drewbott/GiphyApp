@@ -2,8 +2,9 @@ var celebrities = ["Brad Pitt", ];
 
 // displayMovieInfo function re-renders the HTML to display the appropriate content
 function displayGifs() {
-
+$("#gifsDiv").empty();
   var celebrity = $(this).attr("data-name");
+  console.log(this)
   var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=flObyjxaDjlnvavqcHAbDN1rA8IGNVsy&q=" + celebrity + 
   "&limit=10&offset=0&rating=G&lang=en"
 
@@ -14,52 +15,35 @@ function displayGifs() {
   }).then(function(response) {
  console.log(response)
     // Creating a div to hold the movie
-    var gifsDiv = $("<div id='images'>");
-    var rtDiv = $('<div>');
-    // Storing the rating data
-    var rating = response.Rated;
+    var results = response.data;
 
-    // Creating an element to have the rating displayed
-    var pOne = $("<h2 class='text-center'>").text("Rated: " + rating);
+    for (var i = 0; i < results.length; i++) {
 
-    // Displaying the rating
-    rtDiv.append(pOne);
 
-    // Storing the release year
-    var released = response.Released;
-
-    // Creating an element to hold the release year
-    var pTwo = $("<h3 class='text-center'>").text("Released: " + released);
-
-    // Displaying the release year
-    rtDiv.append(pTwo);
-
-    // Storing the plot
-    var plot = response.Plot;
-
-    // Creating an element to hold the plot
-    var pThree = $("<p class='text-center'>").text("Plot: " + plot);
-
-    // Appending the plot
-    rtDiv.append(pThree);
-
-    // Retrieving the URL for the image
-    var imgURL = response.Poster;
-
-    // Creating an element to hold the image
-    var image = $("<img class='img-responsive mx-auto' style='display:block'>").attr("src", imgURL);
-
-    // Appending the image
-    gifsDiv.append(rtDiv)
-    gifsDiv.append(image);
+    // var gifStill = results[i].images.fixed_height_still.url;
+    var celebrityImage = $("<img>")
+  
+    
+    celebrityImage.attr("src", results[i].images.fixed_height.url);
     
 
+    // var celebrityImage = $("img class='img-responsive' style='height: 300px;'>")
+    
+    // celebrityImage.attr("src", gifStill);
+    // celebrityImage.attr("data-still", gifStill);
+    // celebrityImage.attr("data-animate", gifAnimate);
+    // celebrityImage.attr("data-state", "still");
+    // celebrityImage.attr("alt", "celebrity-image");
+
+
+$("#gifsDiv").append(celebrityImage)
+
+
     // Putting the entire movie above the previous movies
-    $("#celebrities-view").prepend(gifsDiv);
-  });
-
+    // $("#celebrities-view").prepend(gifsDiv);
+    }
+  }); 
 }
-
 // Function for displaying movie data
 function renderButtons() {
 
@@ -87,11 +71,14 @@ function renderButtons() {
 // This function handles events where a movie button is clicked
 $("#add-celebrity").on("click", function(event) {
   event.preventDefault();
+  
   // This line grabs the input from the textbox
   var celebrity = $("#celebrity-input").val().trim();
 
   // Adding movie from the textbox to our array
+  
   celebrities.push(celebrity);
+  
 
   // Calling renderButtons which handles the processing of our movie array
   renderButtons();
