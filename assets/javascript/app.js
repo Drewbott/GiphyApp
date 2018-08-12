@@ -24,10 +24,11 @@ $("#gifsDiv").empty();
     // var gifStill = results[i].images.fixed_height_still.url;
     var gifStill = results[i].images.fixed_height_still.url;
     var gifAnimate = results[i].images.fixed_height.url;
+    var p = $("<p>").text("Rating: " + results[i].rating);
   
     
     var celebrityImage = $("<img class='img-responsive star'>")
-    
+    var celebrityDiv = $("<div>");
 
     // var celebrityImage = $("img class='img-responsive' style='height: 300px;'>")
     
@@ -36,9 +37,13 @@ $("#gifsDiv").empty();
     celebrityImage.attr("data-animate", gifAnimate);
     celebrityImage.attr("data-state", "still");
     celebrityImage.attr("alt", "celebrity-image");
+    celebrityDiv.addClass("celebrity-container")
 
 
-$("#gifsDiv").append(celebrityImage)
+celebrityDiv.append(celebrityImage)
+celebrityDiv.prepend(p)
+
+$("#gifsDiv").prepend(celebrityDiv)
 
 
     // Putting the entire movie above the previous movies
