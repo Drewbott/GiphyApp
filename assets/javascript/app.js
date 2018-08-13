@@ -1,4 +1,4 @@
-var celebrities = ["Brad Pitt", ];
+var celebrities = ["Brad Pitt", "Uma Thurman", "Christopher Walken", "Richard Simmons",  ];
 
 // displayMovieInfo function re-renders the HTML to display the appropriate content
 function displayGifs() {
@@ -41,7 +41,7 @@ $("#gifsDiv").empty();
 
 
 celebrityDiv.append(celebrityImage)
-celebrityDiv.prepend(p)
+celebrityDiv.append(p)
 
 $("#gifsDiv").prepend(celebrityDiv)
 
@@ -72,6 +72,7 @@ function renderButtons() {
   // Deleting the movies prior to adding new movies
   // (this is necessary otherwise you will have repeat buttons)
   $("#buttons-view").empty();
+  $("#celebrity-input").val("");
 
   // Looping through the array of movies
   for (var i = 0; i < celebrities.length; i++) {
@@ -93,13 +94,11 @@ function renderButtons() {
 // This function handles events where a movie button is clicked
 $("#add-celebrity").on("click", function(event) {
   event.preventDefault();
-  
 
-  
   // This line grabs the input from the textbox
   var celebrity = $("#celebrity-input").val().trim();
 
-  // Adding movie from the textbox to our array
+ // Adding movie from the textbox to our array
   
   celebrities.push(celebrity);
   
